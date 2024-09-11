@@ -22,8 +22,6 @@ jobs:
       with:
         repository: dockersamples/example-voting-app  # Replace with the actual repository details
         path: original-repo  # Clone into a subdirectory to avoid conflicts
-    - name: List directory contents
-      run: ls -al original-repo
     - name: Download sysdig-cli-scanner
       run: |
         curl -sSL https://download.sysdig.com/stable/sysdig-cli-scanner > /usr/local/bin/sysdig-cli-scanner
@@ -36,5 +34,8 @@ jobs:
         docker build -t dockersamples/examplevotingapp_worker . -f Dockerfile
         cd ../result
         docker build -t dockersamples/examplevotingapp_result . -f Dockerfile
+    - name: Scan images
+      run: |
+        SECURE_API_TOKEN=27295ba7-2e07-4e04-95fc-1e0e90d98570 ./sysdig-cli-scanner --iac -r -f H --apiurl https://app.us4.sysdig.com original-repo 
 
    
