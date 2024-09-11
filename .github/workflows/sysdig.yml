@@ -17,19 +17,19 @@ jobs:
   build_and_scan:
     runs-on: ubuntu-latest
     steps:
-    - name: Download Dockerfiles
-      run: |
-        wget -O voteDockerfile https://raw.githubusercontent.com/dockersamples/example-voting-app/main/vote/Dockerfile
-        wget -O vorkerDockerfile https://raw.githubusercontent.com/dockersamples/example-voting-app/main/worker/Dockerfile
-        wget -O resultDockerfile https://raw.githubusercontent.com/dockersamples/example-voting-app/main/result/Dockerfile
+    - name: Checkout original repository
+      uses: actions/checkout@v3
+      with:
+        repository: dockersamples/example-voting-app  # Replace with the actual repository details
+        path: original-repo  # Clone into a subdirectory to avoid conflicts
     - name: Download sysdig-cli-scanner
       run: |
         curl -sSL https://download.sysdig.com/stable/sysdig-cli-scanner > /usr/local/bin/sysdig-cli-scanner
         chmod +x /usr/local/bin/sysdig-cli-scanner
     - name: Build images
       run: |
-        docker build -t dockersamples/examplevotingapp_vote . -f voteDockerfile
-        docker build -t dockersamples/examplevotingapp_worker . -f vorkerDockerfile
-        docker build -t dockersamples/examplevotingapp_result . -f resultDockerfile
+        docker build -t dockersamples/examplevotingapp_vote ./original-repo/example-voting-app/vote -f Dockerfile
+        docker build -t dockersamples/examplevotingapp_worker ./original-repo/example-voting-app/worker  -f Dockerfile
+        docker build -t dockersamples/examplevotingapp_result ./original-repo/example-voting-app/result  -f Dockerfile
 
    
