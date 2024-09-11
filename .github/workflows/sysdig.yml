@@ -19,6 +19,17 @@ jobs:
     steps:
     - name: Download Dockerfiles
       run: |
-        wget https://github.com/dockersamples/example-voting-app/blob/main/vote/Dockerfile
-        wget https://github.com/dockersamples/example-voting-app/blob/main/worker/Dockerfile
-        wget https://github.com/dockersamples/example-voting-app/blob/main/result/Dockerfile
+        wget -O voteDockerfile https://github.com/dockersamples/example-voting-app/blob/main/vote/Dockerfile
+        wget -O vorkerDockerfile https://github.com/dockersamples/example-voting-app/blob/main/worker/Dockerfile
+        wget -O resultDockerfile https://github.com/dockersamples/example-voting-app/blob/main/result/Dockerfile
+    - name: Download sysdig-cli-scanner
+      run: |
+        curl -sSL https://download.sysdig.com/stable/sysdig-cli-scanner > /usr/local/bin/sysdig-cli-scanner
+        chmod +x /usr/local/bin/sysdig-cli-scanner
+    - name: Build images
+      run: |
+        docker build -t dockersamples/examplevotingapp_vote . -f voteDockerfile
+        docker build -t dockersamples/examplevotingapp_worker . -f vorkerDockerfile
+        docker build -t dockersamples/examplevotingapp_result . -f resultDockerfile
+
+   
