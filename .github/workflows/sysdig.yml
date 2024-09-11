@@ -24,7 +24,7 @@ jobs:
         path: original-repo  # Clone into a subdirectory to avoid conflicts
     - name: Download sysdig-cli-scanner
       run: |
-        curl -LO "https://download.sysdig.com/scanning/bin/sysdig-cli-scanner/$(curl -L -s https://download.sysdig.com/scanning/sysdig-cli-scanner/latest_version.txt)/linux/amd64/sysdig-cli-scanner"  > /usr/local/bin/sysdig-cli-scanner
+        sha256sum -c <(curl -sL "https://download.sysdig.com/scanning/bin/sysdig-cli-scanner/$(curl -L -s https://download.sysdig.com/scanning/sysdig-cli-scanner/latest_version.txt)/linux/amd64/sysdig-cli-scanner.sha256") > /usr/local/bin/sysdig-cli-scanner
         chmod +x /usr/local/bin/sysdig-cli-scanner
     - name: Build images
       run: |
@@ -36,5 +36,8 @@ jobs:
         docker build -t dockersamples/examplevotingapp_result . -f Dockerfile
     - name: Scan images
       run: |
-        SECURE_API_TOKEN=27295ba7-2e07-4e04-95fc-1e0e90d98570 sysdig-cli-scanner --iac -r -f h --apiurl https://app.us4.sysdig.com original-repo   
+        SECURE_API_TOKEN=27295ba7-2e07-4e04-95fc-1e0e90d98570 sysdig-cli-scanner dockersamples/examplevotingapp_vote
+        SECURE_API_TOKEN=27295ba7-2e07-4e04-95fc-1e0e90d98570 sysdig-cli-scanner dockersamples/examplevotingapp_worker
+        SECURE_API_TOKEN=27295ba7-2e07-4e04-95fc-1e0e90d98570 sysdig-cli-scanner dockersamples/examplevotingapp_result
+
 
