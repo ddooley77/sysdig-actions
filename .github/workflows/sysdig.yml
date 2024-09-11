@@ -28,8 +28,8 @@ jobs:
         chmod +x /usr/local/bin/sysdig-cli-scanner
     - name: Build images
       run: |
-        docker build -t dockersamples/examplevotingapp_vote ./original-repo/example-voting-app/vote -f Dockerfile
-        docker build -t dockersamples/examplevotingapp_worker ./original-repo/example-voting-app/worker  -f Dockerfile
-        docker build -t dockersamples/examplevotingapp_result ./original-repo/example-voting-app/result  -f Dockerfile
+        docker build -t dockersamples/examplevotingapp_vote ./original-repo/vote -f Dockerfile
+        docker build -t dockersamples/examplevotingapp_worker ./original-repo/worker  -f Dockerfile
+        docker build -t dockersamples/examplevotingapp_result ./original-repo/result  -f Dockerfile
 
    
