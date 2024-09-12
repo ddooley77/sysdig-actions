@@ -24,14 +24,10 @@ jobs:
         path: original-repo  # Clone into a subdirectory to avoid conflicts
     - name: Download sysdig-cli-scanner
       run: |
-        curl -LO "https://download.sysdig.com/scanning/bin/sysdig-cli-scanner/$(curl -L -s https://download.sysdig.com/scanning/sysdig-cli-scanner/latest_version.txt)/linux/amd64/sysdig-cli-scanner"  > /usr/local/bin/sysdig-cli-scanner
-        sudo chmod +x /usr/local/bin/sysdig-cli-scanner
+        curl -LO "https://download.sysdig.com/scanning/bin/sysdig-cli-scanner/$(curl -L -s https://download.sysdig.com/scanning/sysdig-cli-scanner/latest_version.txt)/linux/amd64/sysdig-cli-scanner" 
+        sudo chmod +x sysdig-cli-scanner
         echo $?  # Print exit code
-        ls -al /usr/local/bin
-        cat /usr/local/bin/sysdig-cli-scanner | head -n 20  # Print first 20 lines of the downloaded file
-
-        ls -al /usr/local/bin/sysdig-cli-scanner  # List file details
-        echo "/usr/local/bin" >> $GITHUB_PATH
+        ls -al
     - name: Build images
       run: |
         cd original-repo/vote
@@ -43,8 +39,8 @@ jobs:
     - name: Scan images
       run: |
         docker images | grep voting
-        SECURE_API_TOKEN=27295ba7-2e07-4e04-95fc-1e0e90d98570 sysdig-cli-scanner --apiurl https://app.us4.sysdig.com dockersamples/examplevotingapp_vote
-        SECURE_API_TOKEN=27295ba7-2e07-4e04-95fc-1e0e90d98570 sysdig-cli-scanner --apiurl https://app.us4.sysdig.com dockersamples/examplevotingapp_worker
-        SECURE_API_TOKEN=27295ba7-2e07-4e04-95fc-1e0e90d98570 sysdig-cli-scanner --apiurl https://app.us4.sysdig.comdockersamples/examplevotingapp_result
+        SECURE_API_TOKEN=27295ba7-2e07-4e04-95fc-1e0e90d98570 ./sysdig-cli-scanner --apiurl https://app.us4.sysdig.com dockersamples/examplevotingapp_vote
+        SECURE_API_TOKEN=27295ba7-2e07-4e04-95fc-1e0e90d98570 ./sysdig-cli-scanner --apiurl https://app.us4.sysdig.com dockersamples/examplevotingapp_worker
+        SECURE_API_TOKEN=27295ba7-2e07-4e04-95fc-1e0e90d98570 ./sysdig-cli-scanner --apiurl https://app.us4.sysdig.comdockersamples/examplevotingapp_result
 
 
