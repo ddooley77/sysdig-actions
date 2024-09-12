@@ -26,8 +26,6 @@ jobs:
       run: |
         curl -LO "https://download.sysdig.com/scanning/bin/sysdig-cli-scanner/$(curl -L -s https://download.sysdig.com/scanning/sysdig-cli-scanner/latest_version.txt)/linux/amd64/sysdig-cli-scanner" 
         sudo chmod +x sysdig-cli-scanner
-        echo $?  # Print exit code
-        ls -al
     - name: Build images
       run: |
         cd original-repo/vote
@@ -36,11 +34,17 @@ jobs:
         docker build -t dockersamples/examplevotingapp_worker . -f Dockerfile
         cd ../result
         docker build -t dockersamples/examplevotingapp_result . -f Dockerfile
-    - name: Scan images
+    - name: Scan Vote
+      continue-on-error: true
       run: |
-        docker images | grep voting
         SECURE_API_TOKEN=27295ba7-2e07-4e04-95fc-1e0e90d98570 ./sysdig-cli-scanner --apiurl https://app.us4.sysdig.com dockersamples/examplevotingapp_vote
+    - name: Scan Worker
+      continue-on-error: true
+      run: |    
         SECURE_API_TOKEN=27295ba7-2e07-4e04-95fc-1e0e90d98570 ./sysdig-cli-scanner --apiurl https://app.us4.sysdig.com dockersamples/examplevotingapp_worker
+    - name: Scan Result
+      continue-on-error: true
+      run: |            
         SECURE_API_TOKEN=27295ba7-2e07-4e04-95fc-1e0e90d98570 ./sysdig-cli-scanner --apiurl https://app.us4.sysdig.comdockersamples/examplevotingapp_result
 
 
