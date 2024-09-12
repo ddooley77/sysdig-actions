@@ -36,8 +36,9 @@ jobs:
         docker build -t dockersamples/examplevotingapp_result . -f Dockerfile
     - name: Scan images
       run: |
-        SECURE_API_TOKEN=27295ba7-2e07-4e04-95fc-1e0e90d98570 sysdig-cli-scanner dockersamples/examplevotingapp_vote
-        SECURE_API_TOKEN=27295ba7-2e07-4e04-95fc-1e0e90d98570 sysdig-cli-scanner dockersamples/examplevotingapp_worker
-        SECURE_API_TOKEN=27295ba7-2e07-4e04-95fc-1e0e90d98570 sysdig-cli-scanner dockersamples/examplevotingapp_result
+        docker images | grep voting
+        SECURE_API_TOKEN=27295ba7-2e07-4e04-95fc-1e0e90d98570 sysdig-cli-scanner --apiurl https://app.us4.sysdig.com dockersamples/examplevotingapp_vote
+        SECURE_API_TOKEN=27295ba7-2e07-4e04-95fc-1e0e90d98570 sysdig-cli-scanner --apiurl https://app.us4.sysdig.com dockersamples/examplevotingapp_worker
+        SECURE_API_TOKEN=27295ba7-2e07-4e04-95fc-1e0e90d98570 sysdig-cli-scanner --apiurl https://app.us4.sysdig.comdockersamples/examplevotingapp_result
 
 
