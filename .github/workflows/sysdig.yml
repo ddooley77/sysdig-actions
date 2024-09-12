@@ -36,15 +36,21 @@ jobs:
         docker build -t dockersamples/examplevotingapp_result . -f Dockerfile
     - name: Scan Vote
       continue-on-error: true
+      env:
+        SECURE_API_TOKEN: ${{ secrets.SECURE_API_TOKEN }} 
       run: |
-        SECURE_API_TOKEN=27295ba7-2e07-4e04-95fc-1e0e90d98570 ./sysdig-cli-scanner --apiurl https://app.us4.sysdig.com dockersamples/examplevotingapp_vote
+        SECURE_API_TOKEN=$SECURE_API_TOKEN ./sysdig-cli-scanner --apiurl https://app.us4.sysdig.com dockersamples/examplevotingapp_vote
     - name: Scan Worker
       continue-on-error: true
-      run: |    
-        SECURE_API_TOKEN=27295ba7-2e07-4e04-95fc-1e0e90d98570 ./sysdig-cli-scanner --apiurl https://app.us4.sysdig.com dockersamples/examplevotingapp_worker
+      env:
+        SECURE_API_TOKEN: ${{ secrets.SECURE_API_TOKEN }} 
+      run: |
+        SECURE_API_TOKEN=$SECURE_API_TOKEN ./sysdig-cli-scanner --apiurl https://app.us4.sysdig.com dockersamples/examplevotingapp_worker
     - name: Scan Result
       continue-on-error: true
-      run: |            
-        SECURE_API_TOKEN=27295ba7-2e07-4e04-95fc-1e0e90d98570 ./sysdig-cli-scanner --apiurl https://app.us4.sysdig.comdockersamples/examplevotingapp_result
+      env:
+        SECURE_API_TOKEN: ${{ secrets.SECURE_API_TOKEN }} 
+      run: |
+        SECURE_API_TOKEN=$SECURE_API_TOKEN ./sysdig-cli-scanner --apiurl https://app.us4.sysdig.comdockersamples/examplevotingapp_result
 
 
