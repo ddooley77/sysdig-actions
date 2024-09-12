@@ -51,6 +51,6 @@ jobs:
       env:
         SECURE_API_TOKEN: ${{ secrets.SECURE_API_TOKEN }} 
       run: |
-        SECURE_API_TOKEN=$SECURE_API_TOKEN ./sysdig-cli-scanner --apiurl https://app.us4.sysdig.comdockersamples/examplevotingapp_result
+        SECURE_API_TOKEN=$SECURE_API_TOKEN ./sysdig-cli-scanner --apiurl https://app.us4.sysdig.com dockersamples/examplevotingapp_result
 
 
